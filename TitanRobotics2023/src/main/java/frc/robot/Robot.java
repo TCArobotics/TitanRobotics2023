@@ -20,7 +20,8 @@ public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();  
+  private DriveControl driveControl;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    driveControl = new DriveControl();
   }
 
   /**
@@ -41,7 +43,10 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() 
+  {
+    driveControl.Execute();
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
