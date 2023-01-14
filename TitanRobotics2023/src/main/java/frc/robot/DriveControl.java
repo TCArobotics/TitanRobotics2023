@@ -14,10 +14,10 @@ public class DriveControl
 
     public DriveControl()
     {
-        this.frontRightMotor = new PWMVictorSPX(0);
-        this.frontLeftMotor = new PWMVictorSPX(0);
+        this.frontRightMotor = new PWMVictorSPX(3);
+        this.frontLeftMotor = new PWMVictorSPX(1);
         this.backRightMotor = new PWMVictorSPX(0);
-        this.backLeftMotor = new PWMVictorSPX(0);
+        this.backLeftMotor = new PWMVictorSPX(2);
         
     }
     //calls all of the functions inside in robot.java.
