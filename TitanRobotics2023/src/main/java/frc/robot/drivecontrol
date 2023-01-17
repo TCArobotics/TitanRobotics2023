@@ -16,7 +16,7 @@ private final tankDrive robotDrive;
 
   public DriveControl()
   {
-   motor_frontLeft = new PWMVictorSPX(PortMap.FRONTLEFT.portNumber);
+        motor_frontLeft = new PWMVictorSPX(PortMap.FRONTLEFT.portNumber);
         motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
         motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
