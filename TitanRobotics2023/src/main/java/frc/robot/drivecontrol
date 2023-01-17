@@ -3,7 +3,6 @@ package frc.robot.actors;
 import frc.robot.data.PortMap;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 public class driveControl
 
@@ -13,6 +12,7 @@ private final MotorController motor_frontLeft;
 private final MotorController motor_frontRight;
 private final MotorController motor_backLeft;
 private final MotorController motor_bakcRight;
+private final tankDrive robotDrive;
 
   public DriveControl()
   {
@@ -22,9 +22,11 @@ private final MotorController motor_bakcRight;
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
         motor_frontLeft.setInverted(true);
         motor_rearLeft.setInverted(true);
+        robotDrive = new tankDrive(motor_frontLeft, motor_rearLeft, motor_frontRight, motor_rearRight);
         
          }
          
-         public void tankDrive(leftSide, rightSide)
+         public void tankDrive(double leftSide,double rightSide)
          {
+         //I need something here, but I can't find the right something. 
          }
