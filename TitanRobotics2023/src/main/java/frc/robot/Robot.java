@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.actors.DriveControl;
 
 // Taylor was here. Taylor edited the comment.
 
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();  
   private DriveControl driveControl;
+  private TeleopControl teleopControl;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,6 +35,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     driveControl = new DriveControl();
+    teleopControl = new TeleopControl();
   }
 
   /**
@@ -45,7 +48,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() 
   {
-    driveControl.Execute();
+    teleopControl.Execute();
   }
 
   /**

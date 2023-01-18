@@ -1,4 +1,4 @@
-package frc.robot.Data;
+package frc.robot.data;
 
 public enum Portmap 
 {
@@ -10,9 +10,9 @@ public enum Portmap
     CLAW(9),
     ARM(9);
     
-    public int portnumber;
+    public int portNumber;
     private Portmap(int _portNumber)
     {
-        this.portnumber = _portNumber;
+        this.portNumber = _portNumber;
     }
 }
