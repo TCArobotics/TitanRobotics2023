@@ -28,5 +28,8 @@ private final tankDrive robotDrive;
          
          public void tankDrive(double leftSide,double rightSide)
          {
-         //I need something here, but I can't find the right something. 
+        this.motor_frontLeft.set(leftSide)
+        this.motor_rearLeft.set(leftSide)
+        this.motor_frontRight.set(rightSide)
+        this.motor_rearRight.set(rightSide)
          }
