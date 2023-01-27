@@ -56,13 +56,13 @@ public class GamePad
         switch(stickAxis)
         {
             case STICK_LEFTX:
-                return xboxController.getRawAxis(leftX);
+                return xboxController.getRawAxis(0);
             case STICK_LEFTY:
-                return xboxController.getRawAxis(leftY);
+                return xboxController.getRawAxis(1);
             case STICK_RIGHTX:
-                return xboxController.getRawAxis(rightX);
+                return xboxController.getRawAxis(4);
             case STICK_RIGHTY:
-                return xboxController.getRawAxis(rightY);  
+                return xboxController.getRawAxis(5);  
             default:
                 return 0;
                 

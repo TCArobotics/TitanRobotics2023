@@ -31,11 +31,15 @@ public class DriveControl
 
     public void tankDrive(double leftY, double rightY) //Moves the sets of wheels based on respective inputs
     {
-        motor_frontLeft.set(2 * leftY);
-        motor_rearLeft.set(2 * leftY);
-        motor_frontRight.set(2 * -rightY);
-        motor_rearRight.set(2 * -rightY);
-        
+        motor_frontLeft.set(2 * -leftY);
+        motor_rearLeft.set(2 * -leftY);
+        motor_frontRight.set(2 * rightY);
+        motor_rearRight.set(2 * rightY);
+       
+        // System.out.println(rightY);
+        //System.out.println(leftY);
+
+
     }
     public void arcadeCurvatureDrive(double speed, double turn) //Moves the sets of wheels with a speed and turning ratio
     {
