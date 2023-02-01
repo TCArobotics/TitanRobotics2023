@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    //teleopControl.testRobot();
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here

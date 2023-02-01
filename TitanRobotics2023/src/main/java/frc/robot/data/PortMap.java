@@ -5,7 +5,7 @@ public enum PortMap {
     FRONTRIGHT(3),
     REARRIGHT(0),
     TURNTABLE(-1),
-    SHOOTER(7),
+    SHOOTER(-1),
     FRONTLEFT(2),
     REARLEFT(1);
 

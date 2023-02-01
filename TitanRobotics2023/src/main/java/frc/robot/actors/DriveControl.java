@@ -3,7 +3,7 @@ package frc.robot.actors;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.data.PortMap;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+//import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 
 //This class handles all drive control actions
@@ -14,8 +14,8 @@ public class DriveControl
     private final MotorController motor_rearLeft;
     private final MotorController motor_frontRight;
     private final MotorController motor_rearRight;
-    private final MotorControllerGroup motorGroup_left;
-    private final MotorControllerGroup motorGroup_right;
+    //private final MotorControllerGroup motorGroup_left;
+    //private final MotorControllerGroup motorGroup_right;
     //private final DifferentialDrive robotDrive;
 
     public DriveControl()
@@ -24,18 +24,22 @@ public class DriveControl
         motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
         motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
-        motorGroup_left = new MotorControllerGroup(motor_frontLeft, motor_rearLeft);
-        motorGroup_right = new MotorControllerGroup(motor_frontRight, motor_rearRight);
+        //motorGroup_left = new MotorControllerGroup(motor_frontLeft, motor_rearLeft);
+        //motorGroup_right = new MotorControllerGroup(motor_frontRight, motor_rearRight);
         //robotDrive = new DifferentialDrive(motorGroup_left, motorGroup_right);
     }
 
-    public void tankDrive(double leftY, double rightY) //Moves the sets of wheels based on respective inputs
+    public void tankDrive(double Y, double Z, double slider) //Moves the sets of wheels based on respective inputs
     {
-        motor_frontLeft.set(2 * -leftY);
-        motor_rearLeft.set(2 * -leftY);
-        motor_frontRight.set(2 * rightY);
-        motor_rearRight.set(2 * rightY);
+        //motor_frontLeft.set(Y); //subtract 0.02 here from leftY for YaLike Jazz
+        //motor_rearLeft.set(-Y); //add 0.02 here from leftY for YaLikeJazz
+        //motor_frontRight.set(Y);
+        //motor_rearRight.set(Y);
        
+        motor_frontLeft.set((-Y + Z) * slider);  //subtract 0.02 here from leftY for YaLike Jazz, slider is speed
+        motor_rearLeft.set((-Y + Z) * slider); //add 0.02 here from leftY for YaLikeJazz
+        motor_frontRight.set((Y + Z) * slider);
+        motor_rearRight.set((Y + Z) * slider);
         // System.out.println(rightY);
         //System.out.println(leftY);
 

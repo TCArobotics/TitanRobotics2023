@@ -17,10 +17,11 @@ public enum ButtonMap
     LSTICK(9),
     RSTICK(10),
 
-    STICK_LEFTX(-1),
-    STICK_LEFTY(-2),
-    STICK_RIGHTX(-3),
-    STICK_RIGHTY(-4);
+    STICK_X(-1),
+    STICK_Y(-2),
+    STICK_Z(-3),
+    SLIDER(-4);
+    
 
     public int value;
     private ButtonMap(int _value)

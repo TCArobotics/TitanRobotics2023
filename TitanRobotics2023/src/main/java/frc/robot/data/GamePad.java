@@ -1,8 +1,8 @@
 package frc.robot.data;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.GenericHID;      
+//import edu.wpi.first.wpilibj.XboxController.Axis;
+//import edu.wpi.first.wpilibj.GenericHID;      
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -55,14 +55,15 @@ public class GamePad
     {
         switch(stickAxis)
         {
-            case STICK_LEFTX:
+            case STICK_X:
                 return xboxController.getRawAxis(0);
-            case STICK_LEFTY:
+            case STICK_Y:
                 return xboxController.getRawAxis(1);
-            case STICK_RIGHTX:
-                return xboxController.getRawAxis(4);
-            case STICK_RIGHTY:
-                return xboxController.getRawAxis(5);  
+            case STICK_Z:
+                return xboxController.getRawAxis(2);
+            case SLIDER:
+                return xboxController.getRawAxis(3);
+            
             default:
                 return 0;
                 

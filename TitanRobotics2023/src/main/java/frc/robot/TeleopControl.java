@@ -23,16 +23,21 @@ public class TeleopControl
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
     {
-        double leftInput = gamePad.getStick(ButtonMap.STICK_LEFTY);
-        double rightInput = gamePad.getStick(ButtonMap.STICK_RIGHTY);
+        double YInput = gamePad.getStick(ButtonMap.STICK_Y);
+        double ZInput = gamePad.getStick(ButtonMap.STICK_Z);
+        double Slider = gamePad.getStick(ButtonMap.SLIDER);
 
-        this.driveControl.tankDrive(leftInput, rightInput); //EXECUTION LINE
+        this.driveControl.tankDrive(YInput, ZInput, (-Slider +1) / 2); //EXECUTION LINE
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
     }
+
+   // public void testRobot() {
+        //this.driveControl.tankDrive(-0.5, -0.5);
+    //}
 
     //public void driveTrain() //Controls the drive train--triggers only ONE execution line
     //{
