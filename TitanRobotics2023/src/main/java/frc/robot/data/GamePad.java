@@ -1,8 +1,6 @@
 package frc.robot.data;
 
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.XboxController.Axis;
-//import edu.wpi.first.wpilibj.GenericHID;      
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -53,7 +51,7 @@ public class GamePad
         switch(stickAxis)
         {
             case Flight_STICK_X:
-                return flightController.getRawAxis(0); //gives the value from -1 to 1 for the specified axis (shown in driverstation for controller when controller is plugged in)
+                return flightController.getRawAxis(0); //gives the value from -1 to 1 for the specified axis (axis shown in driverstation for controller when controller is plugged in)
             case Flight_STICK_Y:
                 return flightController.getRawAxis(1);
             case Flight_STICK_Z:
