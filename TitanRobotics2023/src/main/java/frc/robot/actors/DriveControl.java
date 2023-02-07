@@ -14,9 +14,6 @@ public class DriveControl
     private final MotorController motor_rearLeft;
     private final MotorController motor_frontRight;
     private final MotorController motor_rearRight;
-    //private final MotorControllerGroup motorGroup_left;
-    //private final MotorControllerGroup motorGroup_right;
-    //private final DifferentialDrive robotDrive;
 
     public DriveControl()
     {
@@ -24,36 +21,21 @@ public class DriveControl
         motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
         motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
         motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
-        //motorGroup_left = new MotorControllerGroup(motor_frontLeft, motor_rearLeft);
-        //motorGroup_right = new MotorControllerGroup(motor_frontRight, motor_rearRight);
-        //robotDrive = new DifferentialDrive(motorGroup_left, motorGroup_right);
-    }
-
-    public void tankDrive(double Y, double Z, double slider) //Moves the sets of wheels based on respective inputs
-    {
-        //motor_frontLeft.set(Y); //subtract 0.02 here from leftY for YaLike Jazz
-        //motor_rearLeft.set(-Y); //add 0.02 here from leftY for YaLikeJazz
-        //motor_frontRight.set(Y);
-        //motor_rearRight.set(Y);
        
-        motor_frontLeft.set((-Y + Z) * slider);  //subtract 0.02 here from leftY for YaLike Jazz, slider is speed
-        motor_rearLeft.set((-Y + Z) * slider); //add 0.02 here from leftY for YaLikeJazz
-        motor_frontRight.set((Y + Z) * slider);
-        motor_rearRight.set((Y + Z) * slider);
-        // System.out.println(rightY);
-        //System.out.println(leftY);
-
-
     }
-    public void arcadeCurvatureDrive(double speed, double turn) //Moves the sets of wheels with a speed and turning ratio
+
+    public void flightTankDrive(double Flight_Y, double Flight_Z, double Flight_slider) //Moves the sets of wheels based on respective inputs
     {
-        if(Math.abs(speed) > 0.1) //When the speed input is low enough, the robot switches to arcade, enabling turns in place
-        {
-            //robotDrive.curvatureDrive(speed, turn, false);
-        }
-        else
-        {
-            //robotDrive.arcadeDrive(0, turn);
-        }
-    }
+        motor_frontLeft.set((-Flight_Y + Flight_Z) * Flight_slider);  //subtract 0.02 here from leftY for YaLikeJazz, slider is speed
+        motor_rearLeft.set((-Flight_Y + Flight_Z) * Flight_slider); //add 0.02 here from leftY for YaLikeJazz
+        motor_frontRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
+        motor_rearRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
+    }    
+    public void tankDrive(double Xbox_left_Y, double Xbox_right_Y) //Moves the sets of wheels based on respective inputsw
+    {
+        motor_frontLeft.set(-Xbox_left_Y);  //subtract 0.02 here from leftY for YaLikeJazz, slider is speed
+        motor_rearLeft.set(-Xbox_left_Y); //add 0.02 here from leftY for YaLikeJazz
+        motor_frontRight.set(Xbox_right_Y + 0.015); //add 0.015 here for And-You
+        motor_rearRight.set(Xbox_right_Y + 0.015); //add 0.015 here for And-You
+    }    
 }

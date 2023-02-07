@@ -23,11 +23,17 @@ public class TeleopControl
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
     {
-        double YInput = gamePad.getStick(ButtonMap.STICK_Y);
-        double ZInput = gamePad.getStick(ButtonMap.STICK_Z);
-        double Slider = gamePad.getStick(ButtonMap.SLIDER);
+        double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
+        double Flight_ZInput = gamePad.getStick(ButtonMap.Flight_STICK_Z);
+        double Flight_Slider = gamePad.getStick(ButtonMap.Flight_SLIDER);
 
-        this.driveControl.tankDrive(YInput, ZInput, (-Slider +1) / 2); //EXECUTION LINE
+        //double Xbox_LEFT_STICK_XInput = gamePad.getStick(ButtonMap.Xbox_LEFT_STICK_X);
+        double Xbox_LEFT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_LEFT_STICK_Y);
+        //double Xbox_RIGHT_STICK_XInput = gamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_X);
+        double Xbox_RIGHT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_Y);
+
+        this.driveControl.flightTankDrive(Flight_YInput, Flight_ZInput, ((-Flight_Slider +1) / 2)); //EXECUTION LINE
+        //this.driveControl.tankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
@@ -35,10 +41,8 @@ public class TeleopControl
         this.driveTrain();
     }
 
-   // public void testRobot() {
-        //this.driveControl.tankDrive(-0.5, -0.5);
-    //}
-
+//public void testRobot() {
+    //this.driveControl.flightTankDriwsss
     //public void driveTrain() //Controls the drive train--triggers only ONE execution line
     //{
       //  double leftInput = gamePad.getStick(ButtonMap.STICK_LEFTX);

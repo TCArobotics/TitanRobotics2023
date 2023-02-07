@@ -1,7 +1,8 @@
 package frc.robot.data;
 
 public enum PortMap {
-    GAMEPAD(0),
+    GAMEPAD_Xbox(1), //swap with GAMEPAD_Flight port, 1, if driverstation port is swapped
+    GAMEPAD_Flight(0), //swap with GAMEPAD_Xbox port, 0, if driverstation port is swapped
     FRONTRIGHT(3),
     REARRIGHT(0),
     TURNTABLE(-1),
