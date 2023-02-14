@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.actors.ClawMotor;
+import frc.robot.actors.DriveControl;
+ 
 // Taylor was here. Taylor edited the comment.
 
 /**
@@ -22,6 +24,9 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private ClawMotor claw;
+  private DriveControl driveControl;
+
   private TeleopControl teleopControl;
 
   /**
@@ -33,8 +38,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
-    teleopControl = new TeleopControl();
+    driveControl = new DriveControl();
+    claw = new ClawMotor();
+    teleopControl = new TeleopControl(driveControl, claw);
   }
 
   /**

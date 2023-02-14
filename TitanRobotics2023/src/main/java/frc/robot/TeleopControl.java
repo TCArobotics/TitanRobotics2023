@@ -1,6 +1,6 @@
 package frc.robot;
 
-
+import frc.robot.actors.ClawMotor;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
@@ -12,13 +12,15 @@ import frc.robot.data.GamePad;
 public class TeleopControl
 {
     private final DriveControl driveControl;
+    private final ClawMotor claw;
     private final GamePad gamePad;
 
 
-    public TeleopControl()
+    public TeleopControl(DriveControl driveControl, ClawMotor claw)
     {
-        driveControl = new DriveControl();
-        gamePad = new GamePad();
+        this.driveControl = driveControl;
+        this.claw = claw;
+        this.gamePad = new GamePad();
     }
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
