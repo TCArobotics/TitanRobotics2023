@@ -13,6 +13,7 @@ public class TeleopControl
     private final DriveControl driveControl;
     private final GamePad gamePad;
     public final Timer matchTime;
+    public double runlength = 5;
 
 
     public TeleopControl()
@@ -54,15 +55,16 @@ public class TeleopControl
 
     public void TimedDrive()
     {
-        if(matchTime.get() >= 2)
-        {
-            driveControl.basicDrive(0);
 
-        }
-        else
+
+        for(double i = matchTime.get(); i <= matchTime.get() + runlength;)
         {
             driveControl.basicDrive(.5);
+
         }
+            driveControl.basicDrive(0);
+   
+        
 
          // if(matchTime.hasElapsed(runtime + CurrentTime))// while the current time is less than the time the function needs to run for plus the start time.
             // {
