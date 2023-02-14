@@ -33,12 +33,4 @@ public class TeleopControl
     {
         this.driveTrain();
     }
-
-    //public void driveTrain() //Controls the drive train--triggers only ONE execution line
-    //{
-      //  double leftInput = gamePad.getStick(ButtonMap.STICK_LEFTX);
-        //double rightInput = gamePad.getStick(ButtonMap.STICK_RIGHTY);
-
-        //this.driveControl.tankDrive(leftInput, rightInput); //EXECUTiON LINE
-    //}
 }
