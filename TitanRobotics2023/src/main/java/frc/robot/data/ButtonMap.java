@@ -6,16 +6,18 @@ package frc.robot.data;
 
 public enum ButtonMap
 {
-    A(1),
-    B(2),
-    X(3),
-    Y(4),
-    LB(5),
-    RB(6),
-    BACK(7),
-    START(8),
-    LSTICK(9),
-    RSTICK(10),
+    Flight_BUTTON_1(1),
+
+    Xbox_A(1),
+    Xbox_B(2),
+    Xbox_X(3),
+    Xbox_Y(4),
+    Xbox_LB(5),
+    Xbox_RB(6),
+    Xbox_BACK(7),
+    Xbox_START(8),
+    Xbox_LSTICK(9),
+    Xbox_RSTICK(10),
 
     Flight_STICK_X(-1),
     Flight_STICK_Y(-2),
