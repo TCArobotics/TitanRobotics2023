@@ -54,14 +54,23 @@ public class TeleopControl
         this.neoMotor.neoMotorMovement(Xbox_LEFT_STICK_YInput);
     }
 
+    public void XboxButtonsTest()
+    {
+       if (gamePad.getButtonXboxPressed(ButtonMap.Xbox_A))
+       {
+        System.out.println("AAAAAAAHHHHHHH"); 
+       }       
+    }
+
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
         this.alternateMotor();
         this.NeoMotorSystem();
+        this.XboxButtonsTest();
     }
 
-/*public void testRobot() {
+    /*public void testRobot() {
     this.driveControl.flightTankDrive
     public void driveTrain() //Controls the drive train--triggers only ONE execution line
     {

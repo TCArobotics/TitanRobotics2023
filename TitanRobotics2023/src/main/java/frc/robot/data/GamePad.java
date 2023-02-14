@@ -25,12 +25,12 @@ public class GamePad
         //this.buttons = new HashMap<ButtonMap, Double>();
     }
 
-    public boolean getButtonXbox(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    public boolean getButtonXboxPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
     
         return xboxController.getRawButton(buttonName.value);
     }
-    public boolean getButtonFlight(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    public boolean getButtonFlightPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
     
         return flightController.getRawButton(buttonName.value);
@@ -38,7 +38,7 @@ public class GamePad
     /**
      * 
      */
-  
+    
 
  
     public double getStick(ButtonMap stickAxis) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
