@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.actors.ClawMotor;
+import frc.robot.actors.DriveControl;
+ 
 // Taylor was here. Taylor edited the comment.
 
 /**
@@ -22,6 +24,11 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private ClawMotor claw;
+  private DriveControl driveControl;
+
+  private TeleopControl teleopControl;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,10 +38,13 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    driveControl = new DriveControl();
+    claw = new ClawMotor();
+    teleopControl = new TeleopControl(driveControl, claw);
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Usethis  for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
@@ -80,7 +90,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() { 
+    teleopControl.execute();
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
