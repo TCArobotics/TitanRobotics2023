@@ -3,9 +3,7 @@ package frc.robot.data;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import java.util.HashMap;
-
 import javax.security.auth.x500.X500Principal;
-
 import edu.wpi.first.wpilibj.Timer;
 
 //This class process all gamepad inputs into a form usable by TeleopControl
@@ -16,31 +14,54 @@ public class GamePad
     private XboxController xboxController;
     private XboxController flightController;
     
-    //private HashMap<ButtonMap, Double> buttons;
-   //private double debouncePeriod = 0.25; //The time before a button is allowed to be pressed again in seconds
+    private HashMap<ButtonMap, Double> buttons;
+    private double debouncePeriod = 0.1; //The time before a button is allowed to be pressed again in seconds
     public GamePad()
     {
         this.xboxController = new XboxController(PortMap.GAMEPAD_Xbox.portNumber);
         this.flightController = new XboxController(PortMap.GAMEPAD_Flight.portNumber);
-        //this.buttons = new HashMap<ButtonMap, Double>();
+        this.buttons = new HashMap<ButtonMap, Double>();
+        init();
+    }
+    
+    private void init()
+    {
+        for(ButtonMap i : ButtonMap.values())
+        {
+            buttons.put(i, Timer.getFPGATimestamp());
+        }
     }
 
     public boolean getButtonXboxPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
     
-        return xboxController.getRawButton(buttonName.value);
+        double currentTime = Timer.getFPGATimestamp();
+        if(currentTime - buttons.get(buttonName ) > this.debouncePeriod)
+        {
+            buttons.replace(buttonName, currentTime);
+            return xboxController.getRawButton(buttonName.value);
+        }
+        else
+        {
+            return false;
+        }
     }
     public boolean getButtonFlightPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
-    
-        return flightController.getRawButton(buttonName.value);
+        double currentTime = Timer.getFPGATimestamp();
+        if(currentTime - buttons.get(buttonName ) > this.debouncePeriod)
+        {
+            buttons.replace(buttonName, currentTime);
+            return flightController.getRawButton(buttonName.value);
+        }
+        else
+        {
+            return false;
+        }
     }
-    /**
-     * 
-     */
-    
 
  
+    
     public double getStick(ButtonMap stickAxis) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
         switch(stickAxis)
