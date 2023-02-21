@@ -31,7 +31,7 @@ public class DriveControl
         motor_frontRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
         motor_rearRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
     }    
-    public void tankDrive(double Xbox_left_Y, double Xbox_right_Y) //Moves the sets of wheels based on respective inputs
+    public void xboxTankDrive(double Xbox_left_Y, double Xbox_right_Y) //Moves the sets of wheels based on respective inputs
     {
         //motor_frontLeft.set(-Xbox_left_Y);  //subtract 0.02 here from leftY for YaLikeJazz
         //motor_rearLeft.set(-Xbox_left_Y); //add 0.02 here to leftY for YaLikeJazz

@@ -30,18 +30,17 @@ public class TeleopControl
         double Flight_ZInput = gamePad.getStick(ButtonMap.Flight_STICK_Z);
         double Flight_Slider = gamePad.getStick(ButtonMap.Flight_SLIDER);
 
-        
-
-        this.driveControl.flightTankDrive(Flight_YInput, Flight_ZInput, ((-Flight_Slider +1) / 2)); //EXECUTION LINE
-        //this.driveControl.tankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
-    }
-    public void alternateMotor()
-    {
         double Xbox_LEFT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_LEFT_STICK_Y);
         double Xbox_RIGHT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_Y);
 
-        this.driveControl.tankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
+        this.driveControl.flightTankDrive(Flight_YInput, Flight_ZInput, ((-Flight_Slider +1) / 2)); //EXECUTION LINE
+        //this.driveControl.xboxTankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
     }
+   /* public void alternateMotor()
+    {
+        this.driveControl.xboxTankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
+    }
+    */
 
 
     public void XboxButtonsTest()
@@ -55,7 +54,7 @@ public class TeleopControl
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
-        this.alternateMotor();
+        //this.alternateMotor();
         this.XboxButtonsTest();
     }
 
