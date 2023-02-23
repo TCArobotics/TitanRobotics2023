@@ -56,6 +56,7 @@ public class TeleopControl
         this.driveTrain();
         //this.alternateMotor();
         this.XboxButtonsTest();
+        
     }
 
     /*public void testRobot() {
