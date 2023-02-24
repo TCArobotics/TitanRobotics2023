@@ -36,7 +36,7 @@ public class GamePad
     {
     
         double currentTime = Timer.getFPGATimestamp();
-        if(currentTime - buttons.get(buttonName ) > this.debouncePeriod)
+        if(currentTime - buttons.get(buttonName) > this.debouncePeriod)
         {
             buttons.replace(buttonName, currentTime);
             return xboxController.getRawButton(buttonName.value);
@@ -46,10 +46,11 @@ public class GamePad
             return false;
         }
     }
+
     public boolean getButtonFlightPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
         double currentTime = Timer.getFPGATimestamp();
-        if(currentTime - buttons.get(buttonName ) > this.debouncePeriod)
+        if(currentTime - buttons.get(buttonName) > this.debouncePeriod)
         {
             buttons.replace(buttonName, currentTime);
             return flightController.getRawButton(buttonName.value);
@@ -60,8 +61,11 @@ public class GamePad
         }
     }
 
- 
-    
+    public boolean getButtonFlightPressedDebounceOff(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    {
+        return flightController.getRawButton(buttonName.value);
+    }
+
     public double getStick(ButtonMap stickAxis) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
     {
         switch(stickAxis)

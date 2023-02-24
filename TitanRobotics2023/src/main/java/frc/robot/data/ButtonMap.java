@@ -23,6 +23,10 @@ public enum ButtonMap
     Flight_STICK_Y(-2),
     Flight_STICK_Z(-3),
     Flight_SLIDER(-4),
+    Flight_BUTTON_5(5),
+    Flight_BUTTON_6(6),
+    Flight_BUTTON_3(3),
+    Flight_BUTTON_4(4),
 
     Xbox_LEFT_STICK_X(-5),
     Xbox_LEFT_STICK_Y(-6),
