@@ -1,7 +1,6 @@
 package frc.robot;
 import frc.robot.data.PortMap;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-//import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 //This class controls all robot functions during the Autonomous period
 

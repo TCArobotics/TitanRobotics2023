@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actors.Manipulator;
 import frc.robot.actors.DriveControl;
- 
-// Taylor was here. Taylor edited the comment.
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -73,7 +71,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    //teleopControl.testRobot();
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here

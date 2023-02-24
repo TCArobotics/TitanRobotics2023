@@ -1,9 +1,7 @@
 package frc.robot.data;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import java.util.HashMap;
-import javax.security.auth.x500.X500Principal;
 import edu.wpi.first.wpilibj.Timer;
 
 //This class process all gamepad inputs into a form usable by TeleopControl
@@ -32,7 +30,7 @@ public class GamePad
         }
     }
 
-    public boolean getButtonXboxPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    public boolean getButtonXboxPressed(ButtonMap buttonName) //Input the ButtonMap name and receive if button is pressed, boolean true or false; has debounce (time before button can output true again)
     {
     
         double currentTime = Timer.getFPGATimestamp();
@@ -46,8 +44,13 @@ public class GamePad
             return false;
         }
     }
-
-    public boolean getButtonFlightPressed(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    
+    public boolean getButtonXboxPressedDebounceOff(ButtonMap buttonName) //Input the ButtonMap name and receive if button is pressed, boolean true or false; does not have debounce (allows for motors to be triggered by press and hold until button is released)
+    {
+        return xboxController.getRawButton(buttonName.value);
+    }
+    
+    public boolean getButtonFlightPressed(ButtonMap buttonName) //Input the ButtonMap name and receive if button is pressed, boolean true or false; has debounce (time before button can output true again)
     {
         double currentTime = Timer.getFPGATimestamp();
         if(currentTime - buttons.get(buttonName) > this.debouncePeriod)
@@ -61,7 +64,8 @@ public class GamePad
         }
     }
 
-    public boolean getButtonFlightPressedDebounceOff(ButtonMap buttonName) //Input the ButtonMap name and axis and receive its value, double between -1 and 1
+    
+    public boolean getButtonFlightPressedDebounceOff(ButtonMap buttonName) //Input the ButtonMap name and receive if button is pressed, boolean true or false; does not have debounce (allows for motors to be triggered by press and hold until button is released)
     {
         return flightController.getRawButton(buttonName.value);
     }

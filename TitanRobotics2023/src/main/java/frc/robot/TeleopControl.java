@@ -23,7 +23,7 @@ public class TeleopControl
         this.manipulator = manipulator;
         this.gamePad = new GamePad();
     }
-    public void manipulatorClawControl()
+    public void manipulatorClawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
     {
         boolean button5pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_5);
         boolean button6pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6);
@@ -41,7 +41,7 @@ public class TeleopControl
         }
 
     }
-    public void manipulatorRetractControl()
+    public void manipulatorRetractControl() //controls the retraction of the arm (buttons 3 and 4 on flight controller)
     {
         boolean button3pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_3);
         boolean button4pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
@@ -59,14 +59,14 @@ public class TeleopControl
         }
 
     }
-    public void manipulatorPivotControl()
+    public void manipulatorPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
     {
         double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
 
         this.manipulator.RunPivotMotor(-0.4 * Flight_YInput);
     }
 
-    public void driveTrain() //Controls the drive train--triggers only ONE execution line
+    public void driveTrain() //Controls the drive train--triggers only ONE execution line //comment out the unused drivecontrol version (this.driveControl.flightTankDrive or this.driveControl.xboxTankDrive)
     {
         double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
         double Flight_ZInput = gamePad.getStick(ButtonMap.Flight_STICK_Z);
@@ -78,14 +78,8 @@ public class TeleopControl
         //this.driveControl.flightTankDrive(Flight_YInput, Flight_ZInput, ((-Flight_Slider +1) / 2)); //EXECUTION LINE
         this.driveControl.xboxTankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
     }
-   /* public void alternateMotor()
-    {
-        this.driveControl.xboxTankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput);
-    }
-    */
 
-
-    public void XboxButtonsTest()
+    public void XboxButtonsTest() //test of the xbox button "A"
     {
        if (gamePad.getButtonXboxPressed(ButtonMap.Xbox_A))
        {
@@ -96,20 +90,9 @@ public class TeleopControl
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
-        //this.alternateMotor();
         this.XboxButtonsTest();
         this.manipulatorClawControl();
         this.manipulatorPivotControl();
         this.manipulatorRetractControl();
     }
-
-    /*public void testRobot() {
-    this.driveControl.flightTankDrive
-    public void driveTrain() //Controls the drive train--triggers only ONE execution line
-    {
-        double leftInput = gamePad.getStick(ButtonMap.STICK_LEFTX);
-        double rightInput = gamePad.getStick(ButtonMap.STICK_RIGHTY);
-
-        this.driveControl.tankDrive(leftInput, rightInput); //EXECUTiON LINE
-    }*/
 }
