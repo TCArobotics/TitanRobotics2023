@@ -87,13 +87,6 @@ public class TeleopControl
     {
         claw.clawEncoderAutoGrab(flightGamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), flightGamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_5));
     }
-    public void xboxButtonsTest() //test of the xbox button "A"
-    {
-       if (xboxGamePad.getButtonXboxPressed(ButtonMap.Xbox_A))
-       {
-        System.out.println("AAAAAAAHHHHHHH"); 
-       }       
-    }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
