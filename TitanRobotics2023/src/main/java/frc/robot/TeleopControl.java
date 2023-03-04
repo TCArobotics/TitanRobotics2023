@@ -99,7 +99,6 @@ public class TeleopControl
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
-        this.xboxButtonsTest();
         this.clawControl();
         this.armPivotControl();
         this.armRetractControl();
