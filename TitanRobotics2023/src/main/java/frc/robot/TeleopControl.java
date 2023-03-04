@@ -80,7 +80,6 @@ public class TeleopControl
         double xboxLeftStickXInput = xboxGamePad.getStick(ButtonMap.Xbox_LEFT_STICK_X);
         double xboxRightStickXInput = xboxGamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_X);
 
-        //this.driveControl.flightTankDrive(flightYInput, flightZInput, ((-flightSlider +1) / 2)); //EXECUTION LINE
         this.driveControl.xboxTankDrive(xboxLeftStickYInput, xboxRightStickYInput, xboxLeftStickXInput, xboxRightStickXInput);
     }
 
