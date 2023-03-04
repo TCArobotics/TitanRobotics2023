@@ -22,9 +22,6 @@ public class Claw {
     }
     public void clawEncoderAutoGrab(boolean FlightButton1Pressed, boolean FlightButton6Pressed)
     {
-        SmartDashboard.putNumber("Encoder Position", clawEncoder.getPosition());
-        SmartDashboard.putNumber("Encoder Velocity", clawEncoder.getVelocity());
-        System.out.println(clawEncoder.getPosition());
         if(clawEncoder.getPosition() >= 0)
         {
             gotem = false;
@@ -32,9 +29,6 @@ public class Claw {
         }
         if(FlightButton1Pressed && !gotem && !FlightButton6Pressed)
         {
-            /*Auto retract/extend arm stuff
-             */
-        
             clawMotor.set(-0.03);
             grabbing = true;
         }
