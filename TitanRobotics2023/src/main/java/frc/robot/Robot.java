@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actors.Manipulator;
 import frc.robot.actors.DriveControl;
+import frc.robot.data.Dashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +25,7 @@ public class Robot extends TimedRobot {
 
   private Manipulator manipulator;
   private DriveControl driveControl;
-
+  private Dashboard dashboard;
   private TeleopControl teleopControl;
 
   /**
@@ -39,17 +40,21 @@ public class Robot extends TimedRobot {
     driveControl = new DriveControl();
     manipulator = new Manipulator();
     teleopControl = new TeleopControl(driveControl, manipulator);
+    dashboard = new Dashboard();
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Usethis  for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this  for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() 
+  {
+    dashboard.execute();
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different

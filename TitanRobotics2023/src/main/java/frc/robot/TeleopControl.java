@@ -31,12 +31,10 @@ public class TeleopControl
         {
             this.manipulator.RunClawMotor(-0.2);
         }
-        
         else if(button6pressed)
         {
             this.manipulator.RunClawMotor(0.2);
         }
-
         else
         {
             this.manipulator.RunClawMotor(0);
@@ -51,16 +49,15 @@ public class TeleopControl
         {
             this.manipulator.RunRetractMotor(-0.5);
         }
-
         else if(button4pressed)
         {
             this.manipulator.RunRetractMotor(0.5);
         }
-
         else
         {
             this.manipulator.RunRetractMotor(0);
         }
+
     }
     public void manipulatorPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
     {
@@ -86,7 +83,7 @@ public class TeleopControl
 
     public void AutoCaptureGamePiece()
     {
-        manipulator.Claw_Motor_withEncoder(gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6));
+        manipulator.Claw_Motor_withEncoder(gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_6));
     }
     public void XboxButtonsTest() //test of the xbox button "A"
     {
@@ -106,4 +103,3 @@ public class TeleopControl
         // this.AutoCaptureGamePiece();
     }
 }
-
