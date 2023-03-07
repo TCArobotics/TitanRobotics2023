@@ -14,6 +14,7 @@ public class Claw {
     public Claw()
     {
         clawMotor = new CANSparkMax(PortMap.clawCANID.portNumber, MotorType.kBrushless);
+        
         clawEncoder = clawMotor.getEncoder();
     }
     
