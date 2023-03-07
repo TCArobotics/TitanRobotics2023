@@ -30,6 +30,7 @@ public class TeleopControl
         this.flightGamePad = new FlightGamePad();
 
     }
+    
     public void clawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
     {
         boolean button5pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_5);
@@ -52,20 +53,24 @@ public class TeleopControl
     {
         boolean button3pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_3);
         boolean button4pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
+        
         if(button3pressed)
         {
             this.arm.runArmMotor(-0.5);
         }
+        
         else if(button4pressed)
         {
             this.arm.runArmMotor(0.5);
         }
+        
         else
         {
             this.arm.runArmMotor(0);
         }
 
     }
+    
     public void armPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
     {
         double flightYInput = flightGamePad.getStick(ButtonMap.Flight_STICK_Y);
