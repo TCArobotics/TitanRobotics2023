@@ -7,7 +7,6 @@ import frc.robot.controller.XboxGamePad;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.ButtonMap;
 
-
 /*This class controls all robot functions during Teleop
 Its major role his determining what abstract actions the robot should be taking
 Before offloading tasks to individual handlers such as Drive Control*/
@@ -20,7 +19,6 @@ public class TeleopControl
     private final XboxGamePad xboxGamePad;
     private final FlightGamePad flightGamePad;
 
-
     public TeleopControl(DriveControl driveControl, Claw claw, Arm arm)
     {
         this.driveControl = driveControl;
@@ -28,38 +26,38 @@ public class TeleopControl
         this.claw = claw;
         this.xboxGamePad = new XboxGamePad();
         this.flightGamePad = new FlightGamePad();
-
     }
     
     public void clawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
     {
-        boolean button5pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_5);
-        boolean button6pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6);
-        if(button5pressed)
+        boolean button5Pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_5);
+        boolean button6Pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6);
+        if(button5Pressed)
         {
             this.claw.runClawMotor(-0.2);
         }
-        else if(button6pressed)
+        
+        else if(button6Pressed)
         {
             this.claw.runClawMotor(0.2);
         }
+        
         else
         {
             this.claw.runClawMotor(0);
         }
-
     }
     public void armRetractControl() //controls the retraction of the arm (buttons 3 and 4 on flight controller)
     {
-        boolean button3pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_3);
-        boolean button4pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
+        boolean button3Pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_3);
+        boolean button4Pressed = flightGamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
         
-        if(button3pressed)
+        if(button3Pressed)
         {
             this.arm.runArmMotor(-0.5);
         }
         
-        else if(button4pressed)
+        else if(button4Pressed)
         {
             this.arm.runArmMotor(0.5);
         }
@@ -68,7 +66,6 @@ public class TeleopControl
         {
             this.arm.runArmMotor(0);
         }
-
     }
     
     public void armPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
