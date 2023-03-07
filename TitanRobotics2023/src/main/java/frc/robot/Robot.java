@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
   private Claw claw;
   private Arm arm;
   private DriveControl driveControl;
-
   private TeleopControl teleopControl;
 
   /**
