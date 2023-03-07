@@ -7,8 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-// Taylor was here. Taylor edited the comment.
+import frc.robot.actors.Claw;
+import frc.robot.actors.Arm;
+import frc.robot.actors.DriveControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,8 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private String mAutoSelected;
+  private final SendableChooser<String> mChooser = new SendableChooser<>();
+  private Claw claw;
+  private Arm arm;
+  private DriveControl driveControl;
+  private TeleopControl teleopControl;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,13 +33,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    mChooser.setDefaultOption("Default Auto", kDefaultAuto);
+    mChooser.addOption("My Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", mChooser);
+    driveControl = new DriveControl();
+    claw = new Claw();
+    arm = new Arm();
+    teleopControl = new TeleopControl(driveControl, claw, arm);
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Usethis  for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
@@ -55,15 +64,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    mAutoSelected = mChooser.getSelected();
+    // mAutoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    System.out.println("Auto selected: " + mAutoSelected);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
+    switch (mAutoSelected) {
       case kCustomAuto:
         // Put custom auto code here
         break;
@@ -80,7 +89,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() { 
+    teleopControl.execute();
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
