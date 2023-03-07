@@ -8,18 +8,18 @@ import com.revrobotics.RelativeEncoder;
 
 public class Arm    //contains all arm related motors (pivot, and retract(/extend) arm)
 {   
-    private final MotorController motor_pivot;
+    private final MotorController motorPivot;
     private CANSparkMax armMotor;
     
     public Arm()
     {
         armMotor = new CANSparkMax(PortMap.armCANID.portNumber, MotorType.kBrushless);
-        motor_pivot = new PWMVictorSPX(PortMap.ARMPIVOTMOTOR.portNumber);
+        motorPivot = new PWMVictorSPX(PortMap.ARMPIVOTMOTOR.portNumber);
     }
 
     public void runPivotMotor(double pivotSpeed) //pivots the arm up or down
     {
-        motor_pivot.set(pivotSpeed);
+        motorPivot.set(pivotSpeed);
     }
 
     public void runArmMotor(double retractSpeed) //retracts or extends the arm
