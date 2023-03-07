@@ -16,10 +16,12 @@ public class Claw {
         clawMotor = new CANSparkMax(PortMap.clawCANID.portNumber, MotorType.kBrushless);
         clawEncoder = clawMotor.getEncoder();
     }
+    
     public void runClawMotor(double clawSpeed) //closes or opens the claw on the arm
     {
         clawMotor.set(clawSpeed);
     }
+    
     public void clawEncoderAutoGrab(boolean FlightButton1Pressed, boolean FlightButton6Pressed)
     {
         if(clawEncoder.getPosition() >= 0)
@@ -27,11 +29,13 @@ public class Claw {
             gotem = false;
             grabbing = false;
         }
+        
         if(FlightButton1Pressed && !gotem && !FlightButton6Pressed)
         {
             clawMotor.set(-0.03);
             grabbing = true;
         }
+        
         if(clawEncoder.getVelocity() <= 0.5 && grabbing && !FlightButton6Pressed)
         {
             clawMotor.set(-0.2);
