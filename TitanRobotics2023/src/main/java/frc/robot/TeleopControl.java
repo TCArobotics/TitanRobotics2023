@@ -4,7 +4,7 @@ import frc.robot.actors.Manipulator;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
-
+import frc.robot.data.Dashboard;
 
 /*This class controls all robot functions during Teleop
 Its major role his determining what abstract actions the robot should be taking
@@ -13,14 +13,14 @@ Before offloading tasks to individual handlers such as Drive Control*/
 public class TeleopControl
 {
     private final DriveControl driveControl;
-    private final Manipulator manipulator;
+    //private final Manipulator manipulator;
     private final GamePad gamePad;
 
 
-    public TeleopControl(DriveControl driveControl, Manipulator manipulator)
+    public TeleopControl(DriveControl driveControl) //Manipulator manipulator)
     {
         this.driveControl = driveControl;
-        this.manipulator = manipulator;
+        //this.manipulator = manipulator;
         this.gamePad = new GamePad();
     }
     public void manipulatorClawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
@@ -29,15 +29,15 @@ public class TeleopControl
         boolean button6pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6);
         if(button5pressed)
         {
-            this.manipulator.RunClawMotor(-0.2);
+           // this.manipulator.RunClawMotor(-0.2);
         }
         else if(button6pressed)
         {
-            this.manipulator.RunClawMotor(0.2);
+           // this.manipulator.RunClawMotor(0.2);
         }
         else
         {
-            this.manipulator.RunClawMotor(0);
+           //this.manipulator.RunClawMotor(0);
         }
 
     }
@@ -47,15 +47,15 @@ public class TeleopControl
         boolean button4pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
         if(button3pressed)
         {
-            this.manipulator.RunRetractMotor(-0.5);
+            //this.manipulator.RunRetractMotor(-0.5);
         }
         else if(button4pressed)
         {
-            this.manipulator.RunRetractMotor(0.5);
+            //this.manipulator.RunRetractMotor(0.5);
         }
         else
         {
-            this.manipulator.RunRetractMotor(0);
+            //this.manipulator.RunRetractMotor(0);
         }
 
     }
@@ -63,7 +63,7 @@ public class TeleopControl
     {
         double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
 
-        this.manipulator.RunPivotMotor(-0.4 * Flight_YInput);
+        //this.manipulator.RunPivotMotor(-0.4 * Flight_YInput);
     }
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line //comment out the unused drivecontrol version (this.driveControl.flightTankDrive or this.driveControl.xboxTankDrive)
@@ -83,7 +83,7 @@ public class TeleopControl
 
     public void AutoCaptureGamePiece()
     {
-        manipulator.Claw_Motor_withEncoder(gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_6));
+        //manipulator.Claw_Motor_withEncoder(gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_6));
     }
     public void XboxButtonsTest() //test of the xbox button "A"
     {
@@ -97,8 +97,8 @@ public class TeleopControl
     {
         this.driveTrain();
         this.XboxButtonsTest();
-        this.manipulatorClawControl();
-        this.manipulatorPivotControl();
+        //this.manipulatorClawControl();
+        //this.manipulatorPivotControl();
         this.manipulatorRetractControl();
         // this.AutoCaptureGamePiece();
     }

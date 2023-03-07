@@ -8,7 +8,11 @@ public enum PortMap {
     REARRIGHT(0),//And_You is 0
     FRONTLEFT(3),//And_You is 2
     REARLEFT(2),//And_You is (1?)
-    ARMPIVOTMOTOR(4);//Does not exist for And_You
+    ARMPIVOTMOTOR(4),//Does not exist for And_You
+
+    clawCANID(6),
+    retractorCANID(27);
+
 
     public int portNumber;
     private PortMap(int _portNumber)
