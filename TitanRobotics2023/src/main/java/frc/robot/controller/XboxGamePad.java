@@ -3,7 +3,6 @@ package frc.robot.controller;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.PortMap;
-
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -16,6 +15,7 @@ public class XboxGamePad
     
     private HashMap<ButtonMap, Double> buttons;
     private double debouncePeriod = 0.1; //The time before a button is allowed to be pressed again in seconds
+    
     public XboxGamePad()
     {
         this.xboxController = new XboxController(PortMap.GAMEPAD_Xbox.portNumber);
@@ -38,6 +38,7 @@ public class XboxGamePad
         if(currentTime - buttons.get(buttonName) > this.debouncePeriod)
         {
             buttons.replace(buttonName, currentTime);
+            
             return xboxController.getRawButton(buttonName.value);
         }
         else
