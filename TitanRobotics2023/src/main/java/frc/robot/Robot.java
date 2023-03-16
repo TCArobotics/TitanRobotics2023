@@ -21,6 +21,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.AutonomousControl.AutonomousControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,7 +32,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
+  private static final String LeaveCommunityOption = "Leave Community";
+  private static final String kCustomAuto2 = "plz work2";
+  public String m_autoSelected;
+  private String autoVersionSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   Thread m_visionThread;
 
@@ -39,20 +43,26 @@ public class Robot extends TimedRobot {
   private DriveControl driveControl;
   private Dashboard dashboard;
   private TeleopControl teleopControl;
+  private AutonomousControl autonomousControl;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
-  public void robotInit() {
+  public void robotInit() 
+  {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.addOption("Leave Community", LeaveCommunityOption);
+    m_chooser.addOption("plz work2", kCustomAuto2);
     SmartDashboard.putData("Auto choices", m_chooser);
     driveControl = new DriveControl();
-    //manipulator = new Manipulator();
+    manipulator = new Manipulator();
     teleopControl = new TeleopControl(driveControl); //manipulator);
     dashboard = new Dashboard();//manipulator);
+    autonomousControl = new AutonomousControl(driveControl, manipulator);
+
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
@@ -137,22 +147,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
-    m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
+    //m_autoSelected = SmartDashboard.getString("Auto choices", kCustomAuto);
     System.out.println("Auto selected: " + m_autoSelected); 
   }
   
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+  public void autonomousPeriodic() 
+  {
+    autonomousControl.execute(m_autoSelected);
   }
 
   /** This function is called once when teleop is enabled. */

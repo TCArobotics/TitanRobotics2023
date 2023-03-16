@@ -5,6 +5,7 @@ import frc.robot.actors.Manipulator;
 import frc.robot.data.GamePad;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.AutonomousControl.AutonomousControl;
 
 public class Dashboard
 {

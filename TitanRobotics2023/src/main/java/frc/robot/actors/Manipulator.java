@@ -26,6 +26,7 @@ public class Manipulator    //contains all arm related motors (claw, pivot, and 
         retractMotor = new CANSparkMax(PortMap.retractorCANID.portNumber, MotorType.kBrushless);
         motor_pivot = new PWMVictorSPX(PortMap.ARMPIVOTMOTOR.portNumber);
         //clawEncoder = clawMotor.getEncoder();
+        
     }
 
     public void RunClawMotor(double clawSpeed) //closes or opens the claw on the arm

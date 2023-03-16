@@ -99,7 +99,7 @@ public class TeleopControl
         this.XboxButtonsTest();
         //this.manipulatorClawControl();
         //this.manipulatorPivotControl();
-        this.manipulatorRetractControl();
-        // this.AutoCaptureGamePiece();
+        //this.manipulatorRetractControl();
+        //this.AutoCaptureGamePiece();
     }
 }
