@@ -84,7 +84,7 @@ public class AutonomousControl
             drivingBackward = true;
             stopping = false;
         }
-        else if(!turningRight && !turningLeft)
+        else if(!turningRight && !turningLeft && time() > 4.625)
         {
             driveControl.plugInToTankDrive(0.0, 0.0);
             stopping = true;
@@ -129,18 +129,20 @@ public class AutonomousControl
     {
         System.out.println(time());
         this.AutoStuffForDashboard();
-        if(autoSelected == "Raise Arm")
+        switch(autoSelected)
         {
-            this.pivotAuto();
-        }
-        if(autoSelected == "Leave Community")
-        {
-            this.ForwardAndBack();
-            System.out.println("Nice");
-        }
-        if(autoSelected == "Turn")
-        {
-            this.autoTurn();
+            case "Leave Community":
+                this.ForwardAndBack();
+                System.out.println("Nice");
+            break;
+
+            case "Raise Arm":
+                this.pivotAuto();
+            break;
+
+            case "Turn":
+                this.autoTurn();
+            break;
         }
     }
 }

@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
     dashboard = new Dashboard();//manipulator);
     autonomousControl = new AutonomousControl(driveControl, manipulator);
 
+    
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");

@@ -31,7 +31,7 @@ public class Manipulator    //contains all arm related motors (claw, pivot, and 
 
     public void RunClawMotor(double clawSpeed) //closes or opens the claw on the arm
     {
-       // clawMotor.set(clawSpeed);
+       //clawMotor.set(clawSpeed);
     }
 
     public void RunPivotMotor(double pivotSpeed) //pivots the arm up or down
@@ -42,28 +42,5 @@ public class Manipulator    //contains all arm related motors (claw, pivot, and 
     public void RunRetractMotor(double retractSpeed) //retracts or extends the arm
     {
         retractMotor.set(retractSpeed);
-    }
-
-    public void Claw_Motor_withEncoder(boolean FlightButton1Pressed, boolean FlightButton6Pressed)
-    {
-        //System.out.println(clawEncoder.getPosition());
-        //if(clawEncoder.getPosition() >= 0)
-        {
-            gotem = false;
-            grabbing = false;
-        }
-
-        if(FlightButton1Pressed && !gotem && !FlightButton6Pressed)
-        {
-            /*Auto retract/extend arm stuff here*/
-            //clawMotor.set(-0.03);
-            grabbing = true;
-        }
-
-        if(clawEncoder.getVelocity() <= 0.5 && grabbing && !FlightButton6Pressed)
-        {
-           // clawMotor.set(-0.2);
-            gotem = true;
-        }
     }
 }
