@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import frc.robot.data.AutoOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.actors.Manipulator;
+import frc.robot.actors.Claw;
+import frc.robot.actors.Arm;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.Dashboard;
 import edu.wpi.first.networktables.NetworkTable;
@@ -22,6 +24,8 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.AutonomousControl.AutonomousControl;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,21 +34,21 @@ import frc.robot.AutonomousControl.AutonomousControl;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private static final String LeaveCommunityOption = "Leave Community";
-  private static final String kCustomAuto2 = "plz work2";
+
   public String m_autoSelected;
-  private String autoVersionSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> delayChooser = new SendableChooser<>();
   Thread m_visionThread;
 
-  private Manipulator manipulator;
+  private Arm arm;
+  private Claw claw;
   private DriveControl driveControl;
   private Dashboard dashboard;
   private TeleopControl teleopControl;
   private AutonomousControl autonomousControl;
-
+  private AutoOptions autoOptions;
+  AHRS ahrs;
+  double delayTime;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -52,18 +56,32 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() 
   {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    m_chooser.addOption("Leave Community", LeaveCommunityOption);
-    m_chooser.addOption("plz work2", kCustomAuto2);
-    SmartDashboard.putData("Auto choices", m_chooser);
-    driveControl = new DriveControl();
-    manipulator = new Manipulator();
-    teleopControl = new TeleopControl(driveControl); //manipulator);
-    dashboard = new Dashboard();//manipulator);
-    autonomousControl = new AutonomousControl(driveControl, manipulator);
-
+    ahrs = new AHRS(SPI.Port.kMXP);   
+    autoOptions = new AutoOptions();
+   // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+   // m_chooser.addOption("My Auto", kCustomAuto);
+    delayChooser.addOption(this.autoOptions.waitTime0second, this.autoOptions.waitTime0second);
+    delayChooser.addOption(this.autoOptions.waitTime1second, this.autoOptions.waitTime1second);
+    delayChooser.addOption(this.autoOptions.waitTime2second, this.autoOptions.waitTime2second);
+    delayChooser.addOption(this.autoOptions.waitTime3second, this.autoOptions.waitTime3second);
+    delayChooser.addOption(this.autoOptions.waitTime4second, this.autoOptions.waitTime4second);
+    delayChooser.addOption(this.autoOptions.waitTime5second, this.autoOptions.waitTime5second);
+    delayChooser.addOption(this.autoOptions.waitTime6second, this.autoOptions.waitTime6second);
+    delayChooser.addOption(this.autoOptions.waitTime7second, this.autoOptions.waitTime7second);
     
+    m_chooser.addOption(this.autoOptions.LeaveCommunityOption, this.autoOptions.LeaveCommunityOption);
+    m_chooser.addOption(this.autoOptions.ninetydegreeTurn, this.autoOptions.ninetydegreeTurn);
+
+    //m_chooser.addOption("plz work2", kCustomAuto2);
+    SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putData("Delay Before Autonomous", delayChooser);
+    driveControl = new DriveControl(ahrs);
+    claw = new Claw();
+    arm = new Arm();
+    teleopControl = new TeleopControl(driveControl, claw, arm); //manipulator);
+    dashboard = new Dashboard();//manipulator);
+    autonomousControl = new AutonomousControl(driveControl, arm, claw, ahrs);
+
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
@@ -147,7 +165,50 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    ahrs.zeroYaw(); 
+    if (delayChooser.getSelected() == this.autoOptions.waitTime0second)
+    {
+      delayTime = 0.0;
+    }
+
+    if (delayChooser.getSelected() == this.autoOptions.waitTime1second)
+    {
+      delayTime = 1.0;
+    }
+
+    if (delayChooser.getSelected() == this.autoOptions.waitTime2second)
+    {
+      delayTime = 2.0;
+    }
+
+    if (delayChooser.getSelected() == this.autoOptions.waitTime3second)
+    {
+      delayTime = 3.0;
+    }
+
+    if (delayChooser.getSelected() == this.autoOptions.waitTime4second)
+    {
+      delayTime = 4.0;
+    }
+
+    if (delayChooser.getSelected() == this.autoOptions.waitTime5second)
+    {
+      delayTime = 5.0;
+    }
+    
+    if (delayChooser.getSelected() == this.autoOptions.waitTime6second)
+    {
+      delayTime = 6.0;
+    }
+    
+    if (delayChooser.getSelected() == this.autoOptions.waitTime7second)
+    {
+      delayTime = 7.0;
+    }
+
     m_autoSelected = m_chooser.getSelected();
+    driveControl.autonomousTimer.reset();
+    driveControl.autonomousTimer.start();
     //m_autoSelected = SmartDashboard.getString("Auto choices", kCustomAuto);
     System.out.println("Auto selected: " + m_autoSelected); 
   }
@@ -156,12 +217,16 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() 
   {
-    autonomousControl.execute(m_autoSelected);
+    this.arm.runPivotMotor(0);
+    autonomousControl.execute(m_autoSelected, delayTime);
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    arm.armEncoder.setPosition(0.0);
+    claw.clawEncoder.setPosition(0.0);
+  }
 
   /** This function is called periodically during operator control. */
   @Override

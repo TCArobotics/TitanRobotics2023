@@ -3,45 +3,66 @@ package frc.robot.actors;
 import frc.robot.data.PortMap;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.actors.FixDrift;
+import com.kauailabs.navx.frc.AHRS;
 
 //This class handles all drive control actions
 
 public class DriveControl
 {
-    private final MotorController motor_frontLeft;
-    private final MotorController motor_rearLeft;
-    private final MotorController motor_frontRight;
-    private final MotorController motor_rearRight;
+    private final MotorController motorFrontLeft;
+    private final MotorController motorRearLeft;
+    private final MotorController motorFrontRight;
+    private final MotorController motorRearRight;
+    public Timer autonomousTimer;
+    AHRS ahrs;
+    FixDrift fixDrift;
+    double teleopDriftCorrectYaw = 0.0;
+    double teleopDriftCorrect = 0.0;
+    boolean positionGot = false;
+    
 
-    public DriveControl()
+    public DriveControl(AHRS ahrs)
     {
-        motor_frontLeft = new PWMVictorSPX(PortMap.FRONTLEFT.portNumber);
-        motor_rearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
-        motor_frontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
-        motor_rearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
+        motorFrontLeft = new PWMVictorSPX(PortMap.FRONTLEFT.portNumber);
+        motorRearLeft = new PWMVictorSPX(PortMap.REARLEFT.portNumber);
+        motorFrontRight = new PWMVictorSPX(PortMap.FRONTRIGHT.portNumber);
+        motorRearRight = new PWMVictorSPX(PortMap.REARRIGHT.portNumber);
+        autonomousTimer = new Timer();
+        fixDrift = new FixDrift(ahrs);
     }
 
-    public void flightTankDrive(double Flight_Y, double Flight_Z, double Flight_slider) //Moves the sets of wheels based on respective inputs //comment out the motors here if using xboxTankDrive
+    public void xboxTankDrive(double xboxLeftY, double xboxRightY, double xboxLeftX, double xboxRightX) //Moves the sets of wheels based on respective inputs //comment out the motors here if using flightTankDrive
     {
-        //motor_frontLeft.set((-Flight_Y + Flight_Z) * Flight_slider);  //subtract 0.02 here from leftY for YaLikeJazz, slider is speed
-        //motor_rearLeft.set((-Flight_Y + Flight_Z) * Flight_slider); //add 0.02 here to leftY for YaLikeJazz
-        //motor_frontRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
-        //motor_rearRight.set((Flight_Y + Flight_Z + 0.015) * Flight_slider); //add 0.015 here for And-You
+        if (Math.abs(xboxRightX) <= 0.1 && !positionGot)
+        {
+           teleopDriftCorrectYaw = ahrs.getYaw();
+           positionGot = true;
+        }
+        if (Math.abs(xboxRightX) > 0.1)
+        {
+            teleopDriftCorrect = 0.0;
+            positionGot = false;
+        }
+        if (Math.abs(xboxRightX) <= 0.1)
+        {
+            teleopDriftCorrect = fixDrift.DriftCorrectionEtc(teleopDriftCorrectYaw);
+        }
+
+        motorFrontLeft.set((-xboxLeftY + (0.35 * xboxRightX)) + teleopDriftCorrect);  //subtract 0.02 here from leftY for Menoetius
+        motorRearLeft.set((-xboxLeftY + (0.35 * xboxRightX)) + teleopDriftCorrect); //add 0.02 here to leftY for Menoetius
+        motorFrontRight.set((xboxLeftY + (0.35 * xboxRightX)) + teleopDriftCorrect); //add 0.015 here to rightY for And-You
+        motorRearRight.set((xboxLeftY + (0.35 * xboxRightX)) + teleopDriftCorrect); //add 0.015 here to rightY forAnd-You
     }  
 
-    public void xboxTankDrive(double Xbox_left_Y, double Xbox_right_Y, double Xbox_left_X, double Xbox_right_X) //Moves the sets of wheels based on respective inputs //comment out the motors here if using flightTankDrive
+    public void plugInToTankDrive(double Yspeed, double turn)
     {
-        motor_frontLeft.set((-Xbox_left_Y + (0.5 * Xbox_right_X)) * 1.024);  //subtract 0.02 here from leftY for YaLikeJazz
-        motor_rearLeft.set((-Xbox_left_Y + (0.5 * Xbox_right_X)) * 1.024); //add 0.02 here to leftY for YaLikeJazz
-        motor_frontRight.set(Xbox_left_Y + (0.5 * Xbox_right_X)); //add 0.015 here to right_Y for And-You
-        motor_rearRight.set(Xbox_left_Y + (0.5 * Xbox_right_X)); //add 0.015 here to right_Y forAnd-You
-    }    
+        double Turn = fixDrift.DriftCorrectionEtc(turn);
 
-    public void plugInToTankDrive(double Yspeed, double Turn)
-    {
-        motor_frontLeft.set((Yspeed + Turn) * 1.364);  //subtract 0.02 here from leftY for YaLikeJazz
-        motor_rearLeft.set((Yspeed + Turn) * 1.364); //add 0.02 here to leftY for YaLikeJazz
-        motor_frontRight.set(-Yspeed + Turn); //add 0.015 here to right_Y for And-You
-        motor_rearRight.set(-Yspeed + Turn); //add 0.015 here to right_Y forAnd-You
+        motorFrontLeft.set((Yspeed + Turn) * 1);  //(1.3634) subtract 0.02 here from leftY for YaLikeJazz
+        motorRearLeft.set((Yspeed + Turn) * 1); //add 0.02 here to leftY for YaLikeJazz
+        motorFrontRight.set((-Yspeed + Turn) * 1); //add 0.015 here to right_Y for And-You
+        motorRearRight.set((-Yspeed + Turn) * 1); //add 0.015 here to right_Y forAnd-You
     }
 }

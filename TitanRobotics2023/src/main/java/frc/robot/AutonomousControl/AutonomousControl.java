@@ -1,17 +1,24 @@
 package frc.robot.AutonomousControl;
 import frc.robot.actors.DriveControl;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.actors.Manipulator;
+import frc.robot.actors.Arm;
+import frc.robot.actors.Claw;
+import frc.robot.data.GyroDrive;
+import frc.robot.data.AutoOptions;
 
 public class AutonomousControl 
 {
     private final DriveControl driveControl;
+    public double xAxisRate;
+    public GyroDrive GyroObject;
     public double startTime;
     public boolean startTimeGot = false;
-    private final Manipulator manipulator;
+    private final Arm arm;
+    private Claw claw;
     public boolean turningRight = false;
     public boolean turningLeft = false;
     public boolean extending = false;
@@ -21,11 +28,19 @@ public class AutonomousControl
     public boolean drivingBackward = false;
     public boolean drivingForward = false;
     public boolean stopping = false;
+    private AutoOptions autoOptions;
+    AHRS ahrs;
+    boolean zeroed = false;
+    double delay;
 
-    public AutonomousControl(DriveControl driveControl, Manipulator manipulator)
+    public AutonomousControl(DriveControl driveControl, Arm arm, Claw claw, AHRS ahrs)
     {
         this.driveControl = driveControl;
-        this.manipulator = manipulator;
+        this.arm = arm;
+        this.claw = claw;
+        GyroObject = new GyroDrive(ahrs);
+        this.autoOptions = new AutoOptions();
+        this.ahrs = ahrs;
     }
 
     public void AutoStuffForDashboard()
@@ -53,8 +68,8 @@ public class AutonomousControl
 
     public void ForwardAndStop()
     {
-        System.out.println(time());
-        if (time() <= 1.85)
+        //System.out.println(time());
+        if (time() <= 1.85 + delay)
         {
             driveControl.plugInToTankDrive(0.45, 0.0);
             drivingForward = true;
@@ -65,40 +80,53 @@ public class AutonomousControl
             driveControl.plugInToTankDrive(0.0, 0.0);
             stopping = true;
             drivingForward = false;
-            System.out.println("Stopping");
+            //System.out.println("Stopping");
         }
+    }
+
+    public void AutoBalanceAuto()
+    {
+         xAxisRate = GyroObject.autoBalance();
+        //System.out.println("gyro");
+        driveControl.plugInToTankDrive(-xAxisRate, 0.0);
     }
     
     public void ForwardAndBack()
     {
-        System.out.println(time());
-        if (time() <= 2.775)
+        
+        double forwardTime = 3.5 + delay; //change the numerical values according to how long you want the phase to last
+        double backwardsTime = 2.2 + forwardTime; //2.2
+        //System.out.println(time());
+        if (time() > delay && time() <= forwardTime)
         {
             driveControl.plugInToTankDrive(0.45, 0.0);
             drivingForward = true;
             stopping = false;
         }
-        if ((time() > 2.775) && (time() <= 4.625))
+
+        if ((time() > forwardTime) && (time() <= backwardsTime))
         {
             driveControl.plugInToTankDrive(-0.45, 0.0);
             drivingBackward = true;
             stopping = false;
         }
-        else if(!turningRight && !turningLeft && time() > 4.625)
+
+        else if(time() > backwardsTime)
         {
             driveControl.plugInToTankDrive(0.0, 0.0);
             stopping = true;
-            drivingForward = false;
-            System.out.println("Stopping");
+            //drivingForward = false;
+            //System.out.println("Stopping");
+            this.AutoBalanceAuto();
         }
     }
 
 
     public void autoTurn()
     {
-        if (time() >= 2.5 && time() <= 3.5)
+        if (time() >= 0 && time() <= 5.0)
         {
-            driveControl.plugInToTankDrive(0.0, 0.75);
+            driveControl.plugInToTankDrive(0.0, 90);
             turningRight = true;
             drivingForward = false;
             stopping = false;
@@ -111,38 +139,43 @@ public class AutonomousControl
 
     public void retractorAuto()
     {
-        this.manipulator.RunRetractMotor(0.0);
+        this.arm.runArmMotor(0.0);
     }
 
     public void clawAuto()
     {
-        this.manipulator.RunClawMotor(0.0);
+        this.claw.runClawMotor(0.0);
     }
 
     public void pivotAuto()
     {
-        this.manipulator.RunPivotMotor(0.0);
+        this.arm.runPivotMotor(0.0);
     }
     
 
-    public void execute(String autoSelected)
+    public void execute(String autoSelected, double delay)
     {
-        System.out.println(time());
-        this.AutoStuffForDashboard();
-        switch(autoSelected)
+        this.delay = delay;
+        if (zeroed = false)
         {
-            case "Leave Community":
-                this.ForwardAndBack();
-                System.out.println("Nice");
-            break;
-
-            case "Raise Arm":
-                this.pivotAuto();
-            break;
-
-            case "Turn":
-                this.autoTurn();
-            break;
+            ahrs.zeroYaw();
+            zeroed = true;
+        }
+       // System.out.println(time());
+        this.AutoStuffForDashboard();
+        this.AutoBalanceAuto();
+        if(autoSelected == "Raise Arm")
+        {
+            this.pivotAuto();
+        }
+        if(autoSelected == this.autoOptions.LeaveCommunityOption)
+        {
+            this.ForwardAndBack();
+           // System.out.println("Nice");
+        }
+        if(autoSelected == "90 Degree Turn")
+        {
+            this.autoTurn();
         }
     }
 }

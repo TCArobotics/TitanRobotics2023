@@ -1,19 +1,20 @@
 package frc.robot.data;
 
 import frc.robot.actors.DriveControl;
-import frc.robot.actors.Manipulator;
-import frc.robot.data.GamePad;
+import frc.robot.actors.Arm;
+import frc.robot.actors.Claw;
+import frc.robot.controller.FlightJoystick;
+import frc.robot.controller.XboxGamePad;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.AutonomousControl.AutonomousControl;
 
 public class Dashboard
 {
-    //private final Manipulator manipulator;
     
-    public Dashboard()//Manipulator manipulator)
+    public Dashboard()
     {
-        //this.manipulator = manipulator;
+       
     }
 
     private void DashboardEncoderPositions()

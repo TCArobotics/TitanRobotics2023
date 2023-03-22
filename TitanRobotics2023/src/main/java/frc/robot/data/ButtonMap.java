@@ -6,38 +6,41 @@ package frc.robot.data;
 
 public enum ButtonMap
 {
-    Xbox_A(1),
-    Xbox_B(2),
-    Xbox_X(3),
-    Xbox_Y(4),
-    Xbox_LB(5),
-    Xbox_RB(6),
-    Xbox_BACK(7),
-    Xbox_START(8),
-    Xbox_LSTICK(9),
-    Xbox_RSTICK(10),
+    XboxA(1),
+    XboxB(2),
+    XboxX(3),
+    XboxY(4),
+    XboxLB(5),
+    XboxRB(6),
+    XboxBACK(7),
+    XboxSTART(8),
+    XboxLSTICK(9),
+    XboxRSTICK(10),
 
-    Flight_BUTTON_1(1),
-    Flight_BUTTON_2(2),
-    Flight_BUTTON_3(3),
-    Flight_BUTTON_4(4),
-    Flight_BUTTON_5(5),
-    Flight_BUTTON_6(6),
-    Flight_STICK_X(-1),
-    Flight_STICK_Y(-2),
-    Flight_STICK_Z(-3),
-    Flight_SLIDER(-4),
+    FlightBUTTON1(1),
+    FlightBUTTON2(2),
+    FlightBUTTON3(3),
+    FlightBUTTON4(4),
+    FlightBUTTON5(5),
+    FlightBUTTON6(6),
+    FlightBUTTON7(7),
+    FlightBUTTON8(8),
+    FlightBUTTON9(9),
+    FlightSTICKX(-1),
+    FlightSTICKY(-2),
+    FlightSTICKZ(-3),
+    FlightSLIDER(-4),
 
-    Xbox_LEFT_STICK_X(-5),
-    Xbox_LEFT_STICK_Y(-6),
-    Xbox_RIGHT_STICK_X(-7),
-    Xbox_RIGHT_STICK_Y(-8);
+    XboxLEFTSTICKX(-5),
+    XboxLEFTSTICKY(-6),
+    XboxRIGHTSTICKX(-7),
+    XboxRIGHTSTICKY(-8);
 
     
 
     public int value;
-    private ButtonMap(int _value)
+    private ButtonMap(int buttonValue)
     {
-        this.value = _value;
+        this.value = buttonValue;
     }
 }

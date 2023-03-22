@@ -10,29 +10,36 @@ public class FixDrift
 {
 	public double driftError;
 	public double gyroAngle;
-	public double driftIntegral;
-	public double driftDerivative;
-	public double driftCorrection;
-	public double driftThreshold;
+	public double driftIntegral = 0.0;
+	public double driftDerivative = 0.0;
+	public double driftThreshold = 2.0;
+	double lastError = 0.0;
+	AHRS ahrs;
 
-	public static double kP = 1.0; //proportional constant
-	public static double kD = 0.0; //derivative constant
-	public static double kI = 0.0; //integral constant
+	public static double kP = 0.1; //proportional constant
+	public static double kD = 0.01; //derivative constant
+	public static double kI = 0.1; //integral constant
 
-	public FixDrift(double desiredAngle, double power) 
+	public FixDrift(AHRS ahrs)
 	{
-		//gyroAngle = gyro;
+		this.ahrs = ahrs;
+	}
+
+	public double DriftCorrectionEtc(double desiredAngle) 
+	{
+		gyroAngle = ahrs.getYaw();
+	
 		driftError = desiredAngle - gyroAngle;
-		//derivative = angular velocity
+		driftDerivative = driftError - lastError;
+		lastError = driftError;
 		driftIntegral += driftError;
-		driftCorrection = (kP * driftError) + (kI * driftIntegral) + (kD * driftDerivative); //PID controller
 
 		if(driftError <= driftThreshold)
 		{
 			driftIntegral = 0.0;
 		}
-
 		
-
+		double turnRadians = ((kP * driftError) + (kI * driftIntegral) + (kD * driftDerivative)) * (Math.PI / 180.0);
+		return Math.sin(turnRadians) * 0.5;
 	}
 }

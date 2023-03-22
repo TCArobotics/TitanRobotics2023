@@ -1,105 +1,125 @@
 package frc.robot;
 
-import frc.robot.actors.Manipulator;
+import frc.robot.actors.Claw;
+import frc.robot.actors.Arm;
+import frc.robot.controller.FlightJoystick;
+import frc.robot.controller.XboxGamePad;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.ButtonMap;
-import frc.robot.data.GamePad;
-import frc.robot.data.Dashboard;
 
-/*This class controls all robot functions during Teleop
+
+/*This class controls all robot functions during Teleop.
 Its major role his determining what abstract actions the robot should be taking
-Before offloading tasks to individual handlers such as Drive Control*/
+before offloading tasks to individual handlers such as Drive Control.*/
 
 public class TeleopControl
 {
     private final DriveControl driveControl;
-    //private final Manipulator manipulator;
-    private final GamePad gamePad;
+    private final Arm arm;
+    private final Claw claw;
+    private final XboxGamePad xboxGamePad;
+    private final FlightJoystick flightJoystick;
+    private double flightSliderYInput;
 
-
-    public TeleopControl(DriveControl driveControl) //Manipulator manipulator)
+    public TeleopControl(DriveControl driveControl, Claw claw, Arm arm)
     {
         this.driveControl = driveControl;
-        //this.manipulator = manipulator;
-        this.gamePad = new GamePad();
+        this.arm = arm;
+        this.claw = claw;
+        this.xboxGamePad = new XboxGamePad();
+        this.flightJoystick = new FlightJoystick();
+        flightSliderYInput = flightJoystick.getStick(ButtonMap.FlightSLIDER);
     }
-    public void manipulatorClawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
-    {
-        boolean button5pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_5);
-        boolean button6pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_6);
-        if(button5pressed)
-        {
-           // this.manipulator.RunClawMotor(-0.2);
-        }
-        else if(button6pressed)
-        {
-           // this.manipulator.RunClawMotor(0.2);
-        }
-        else
-        {
-           //this.manipulator.RunClawMotor(0);
-        }
 
+    public void clawControl() //controls the closing and opening of the claw (buttons 5 and 6 on flight controller)
+    {
+        boolean button5pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON5);
+        boolean button6pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON6);
+        
+        if(flightSliderYInput < 0.9)
+        {
+            if(button5pressed)
+            {
+                this.claw.runClawMotor(-0.2);
+            // System.out.println("ClawisClosing");
+            }
+            else if(button6pressed)
+            {
+                this.claw.runClawMotor(0.2);
+            // System.out.println("ClawisOpening");
+            }
+            else 
+            {
+                this.claw.runClawMotor(0);
+            }
+        }
     }
-    public void manipulatorRetractControl() //controls the retraction of the arm (buttons 3 and 4 on flight controller)
-    {
-        boolean button3pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_3);
-        boolean button4pressed = gamePad.getButtonFlightPressedDebounceOff(ButtonMap.Flight_BUTTON_4);
-        if(button3pressed)
-        {
-            //this.manipulator.RunRetractMotor(-0.5);
-        }
-        else if(button4pressed)
-        {
-            //this.manipulator.RunRetractMotor(0.5);
-        }
-        else
-        {
-            //this.manipulator.RunRetractMotor(0);
-        }
 
+    public void armControl() //controls the retraction of the arm (buttons 3 and 4 on flight controller)
+    {
+        boolean button3pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON3);
+        boolean button4pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON4);
+            if(button3pressed)
+            {
+                this.arm.runArmMotor(-0.5);
+            }
+            else if(button4pressed)
+            {
+                this.arm.runArmMotor(0.5);
+            }
+            else
+            {
+                this.arm.runArmMotor(0);
+            }
     }
-    public void manipulatorPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
-    {
-        double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
 
-        //this.manipulator.RunPivotMotor(-0.4 * Flight_YInput);
+    public void autoArmControl()
+    {
+        boolean button7pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON7);
+        boolean button8pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON8);
+        this.arm.automaticArmRetract(button7pressed, button8pressed);
+    }
+
+    public void armPivotControl() //controls the pivoting of the arm (Flight controller stick y-axis)
+    {
+        double flightYInput = flightJoystick.getStick(ButtonMap.FlightSTICKY);
+        this.arm.runPivotMotor(-0.4 * flightYInput);
     }
 
     public void driveTrain() //Controls the drive train--triggers only ONE execution line //comment out the unused drivecontrol version (this.driveControl.flightTankDrive or this.driveControl.xboxTankDrive)
     {
-        double Flight_YInput = gamePad.getStick(ButtonMap.Flight_STICK_Y);
-        double Flight_ZInput = gamePad.getStick(ButtonMap.Flight_STICK_Z);
-        double Flight_Slider = gamePad.getStick(ButtonMap.Flight_SLIDER);
+        double xboxLeftStickYInput = xboxGamePad.getStick(ButtonMap.XboxLEFTSTICKY);
+        double xboxRightStickYInput = xboxGamePad.getStick(ButtonMap.XboxRIGHTSTICKY);
+        double xboxLeftStickXInput = xboxGamePad.getStick(ButtonMap.XboxLEFTSTICKX);
+        double xboxRightStickXInput = xboxGamePad.getStick(ButtonMap.XboxRIGHTSTICKX);
 
-        double Xbox_LEFT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_LEFT_STICK_Y);
-        double Xbox_RIGHT_STICK_YInput = gamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_Y);
-        double Xbox_LEFT_STICK_XInput = gamePad.getStick(ButtonMap.Xbox_LEFT_STICK_X);
-        double Xbox_RIGHT_STICK_XInput = gamePad.getStick(ButtonMap.Xbox_RIGHT_STICK_X);
-
-        //this.driveControl.flightTankDrive(Flight_YInput, Flight_ZInput, ((-Flight_Slider +1) / 2)); //EXECUTION LINE
-        this.driveControl.xboxTankDrive(Xbox_LEFT_STICK_YInput, Xbox_RIGHT_STICK_YInput, Xbox_LEFT_STICK_XInput, Xbox_RIGHT_STICK_XInput);
+    
+        this.driveControl.xboxTankDrive(xboxLeftStickYInput, xboxRightStickYInput, xboxLeftStickXInput, xboxRightStickXInput);
     }
 
-    public void AutoCaptureGamePiece()
+    public void autoCaptureGamePiece()
     {
-        //manipulator.Claw_Motor_withEncoder(gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_1), gamePad.getButtonFlightPressed(ButtonMap.Flight_BUTTON_6));
+        if(flightSliderYInput >= 0.9)
+        {
+            claw.clawEncoderAutoGrab(flightJoystick.getButtonFlightPressed(ButtonMap.FlightBUTTON1), flightJoystick.getButtonFlightPressed(ButtonMap.FlightBUTTON2));
+        }
     }
-    public void XboxButtonsTest() //test of the xbox button "A"
+
+    public void armDescentControl()
     {
-       if (gamePad.getButtonXboxPressed(ButtonMap.Xbox_A))
-       {
-        System.out.println("AAAAAAAHHHHHHH"); 
-       }       
+        boolean button9pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON9);
+        arm.armSlowDescent(button9pressed);
     }
 
     public void execute() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
     {
         this.driveTrain();
-        this.XboxButtonsTest();
-        //this.manipulatorClawControl();
-        //this.manipulatorPivotControl();
-        //this.manipulatorRetractControl();
-        //this.AutoCaptureGamePiece();
+        this.clawControl();
+        this.armPivotControl();
+        this.armControl();
+       // this.autoArmControl();
+       //if(!button5pressed, !button6pressed)
+       // this.autoCaptureGamePiece();
+       // this.armDescentControl();
     }
 }
