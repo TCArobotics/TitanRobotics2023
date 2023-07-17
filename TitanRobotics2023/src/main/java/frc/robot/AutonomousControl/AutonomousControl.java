@@ -1,8 +1,6 @@
 package frc.robot.AutonomousControl;
 import frc.robot.actors.DriveControl;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actors.Manipulator;
 

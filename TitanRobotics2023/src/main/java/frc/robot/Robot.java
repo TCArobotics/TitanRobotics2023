@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
   private static final String LeaveCommunityOption = "Leave Community";
   private static final String kCustomAuto2 = "plz work2";
   public String m_autoSelected;
-  private String autoVersionSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   Thread m_visionThread;
 

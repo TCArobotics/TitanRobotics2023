@@ -1,10 +1,9 @@
 package frc.robot;
 
-import frc.robot.actors.Manipulator;
+//import frc.robot.actors.Manipulator;
 import frc.robot.actors.DriveControl;
 import frc.robot.data.ButtonMap;
 import frc.robot.data.GamePad;
-import frc.robot.data.Dashboard;
 
 /*This class controls all robot functions during Teleop
 Its major role his determining what abstract actions the robot should be taking
@@ -89,7 +88,7 @@ public class TeleopControl
     {
        if (gamePad.getButtonXboxPressed(ButtonMap.Xbox_A))
        {
-        System.out.println("AAAAAAAHHHHHHH"); 
+        System.out.println("A pressed"); 
        }       
     }
 
