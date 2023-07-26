@@ -1,22 +1,41 @@
 package frc.robot.actors;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import javax.lang.model.util.ElementScanner14;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.data.PortMap;
 import frc.robot.data.AprilTag;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Claw {
     private CANSparkMax clawMotor;
     public RelativeEncoder clawEncoder;
     private String clawState;
+    private Boolean zeroSet;
     private String clawStateAuto;
     private AprilTag aprilTag = new AprilTag();
+    public double startTimeClaw;
+    public boolean startTimeGotClaw = false;
+    
     public Claw()
     {
         clawMotor = new CANSparkMax(PortMap.clawCANID.portNumber, MotorType.kBrushless);
-        clawState = "closed";
+        clawState = "releasing";
+        zeroSet = false;
         clawStateAuto = "closed";
         clawEncoder = clawMotor.getEncoder();
+    }
+
+    public double timeClaw()
+    {
+        if (startTimeGotClaw == false)
+        {
+            startTimeClaw = (Timer.getFPGATimestamp());
+            startTimeGotClaw = true;
+        }
+        return (Timer.getFPGATimestamp() - startTimeClaw);
     }
     
     public void runClawMotor(double clawSpeed) //closes or opens the claw on the arm
@@ -26,15 +45,11 @@ public class Claw {
     
     public void clawEncoderAutoGrab(boolean autoGrabButtonPressed, boolean autoReleaseButtonPressed) //Automatically grabs and holds onto an object
     {
-        //System.out.println(clawState);
+        System.out.println(clawState);
         switch(clawState)
         {
             case "open":
                 if(!autoGrabButtonPressed)
-                {
-                    clawMotor.set(0);
-                }
-                if(autoGrabButtonPressed)
                 {
                     clawState = "grabbing";
                 }
@@ -46,7 +61,7 @@ public class Claw {
                 {
                     clawState = "releasing";
                 }
-                if(clawEncoder.getPosition() == 0)//9 is a placeholder
+                if(clawEncoder.getPosition() >= -0.1 && zeroSet == true)//9 is a placeholder
                 {
                     clawState = "closed";
                 }
@@ -55,7 +70,15 @@ public class Claw {
             case "releasing":
                 clawMotor.set(-0.2);
                 System.out.println(clawEncoder.getPosition());
-                if(clawEncoder.getPosition() <= -5)
+                if(zeroSet == false && timeClaw() <= 1.5)
+                {
+                    clawEncoder.setPosition(0.0);
+                }
+                else
+                {
+                    zeroSet = true;
+                }
+                if(clawEncoder.getPosition() <= -5.5 && zeroSet == true)
                 {
                     clawState = "open";
                 }
@@ -73,7 +96,7 @@ public class Claw {
             break;
         }
     }
-    public void clawEncoderAutoGrabAutonomous() //Automatically grabs and holds onto an object
+   /*  public void clawEncoderAutoGrabAutonomous() //Automatically grabs and holds onto an object
     {
         System.out.println(clawStateAuto);
         System.out.println(clawEncoder);
@@ -116,5 +139,5 @@ public class Claw {
                 }
             break;
         }
-    }
+    }*/
 }

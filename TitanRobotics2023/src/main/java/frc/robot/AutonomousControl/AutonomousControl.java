@@ -244,6 +244,7 @@ public class AutonomousControl
             {
                 claw.runClawMotor(0);
             }
+            
         }
         else
         {
