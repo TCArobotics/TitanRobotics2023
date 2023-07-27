@@ -137,8 +137,10 @@ public class TeleopControl
 
     public void armDescentControl()
     {
-        boolean button9pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON9);
-        arm.armSlowDescent(button9pressed);
+        boolean button2pressed = flightJoystick.getButtonFlightPressed(ButtonMap.FlightBUTTON2);
+        //boolean button9pressed = flightJoystick.getButtonFlightPressedDebounceOff(ButtonMap.FlightBUTTON9);
+       // arm.armSlowDescent(button9pressed);
+        arm.armStopDescent(button2pressed);
     }
 
     public void executeTeleop() //Called in Robot.teleopPeriodic(), Contains a single function for each major system on the robot
@@ -149,6 +151,6 @@ public class TeleopControl
         this.armControl();
        // this.autoArmControl();
         this.autoCaptureGamePiece();
-       // this.armDescentControl();
+        this.armDescentControl();
     }
 }

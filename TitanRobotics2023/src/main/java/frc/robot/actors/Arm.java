@@ -20,6 +20,7 @@ public class Arm    //contains all arm related motors (pivot, and retract(/exten
     public RelativeEncoder armEncoder;
     private double armPosition;
     private String state;
+    private boolean button2alreadypressed = false;
     
     public Arm()
     {
@@ -77,6 +78,20 @@ public class Arm    //contains all arm related motors (pivot, and retract(/exten
                 }
                // System.out.println("Arm is Retracted");
                 break;
+        }
+    }
+    public void armStopDescent(boolean armStopDescentButtonPressed)
+    {
+        pivotEncoder.setDistancePerPulse(1/cpr);
+        System.out.println(pivotEncoder.getDistance());
+        if(!button2alreadypressed && armStopDescentButtonPressed)
+        {
+            motorPivot.set(-0.1);
+            button2alreadypressed = true;
+        }
+        if(button2alreadypressed && armStopDescentButtonPressed)
+        {
+            motorPivot.set(0.0);
         }
     }
 
