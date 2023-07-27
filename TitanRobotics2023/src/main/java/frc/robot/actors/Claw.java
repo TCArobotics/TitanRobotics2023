@@ -49,19 +49,20 @@ public class Claw {
         switch(clawState)
         {
             case "open":
-                if(!autoGrabButtonPressed)
+                clawMotor.set(0.025);
+                if(autoGrabButtonPressed)
                 {
                     clawState = "grabbing";
                 }
                 System.out.println("Claw is Open");
             break;
             case "grabbing":
-                clawMotor.set(0.1);
+                clawMotor.set(0.15);
                 if(autoGrabButtonPressed)
                 {
                     clawState = "releasing";
                 }
-                if(clawEncoder.getPosition() >= -0.1 && zeroSet == true)//9 is a placeholder
+                if(clawEncoder.getPosition() >= 20.0 && zeroSet == true)//9 is a placeholder
                 {
                     clawState = "closed";
                 }
@@ -72,22 +73,27 @@ public class Claw {
                 System.out.println(clawEncoder.getPosition());
                 if(zeroSet == false && timeClaw() <= 1.5)
                 {
+                    clawMotor.set(-0.1);
                     clawEncoder.setPosition(0.0);
                 }
                 else
                 {
                     zeroSet = true;
                 }
-                if(clawEncoder.getPosition() <= -5.5 && zeroSet == true)
+                if(clawEncoder.getPosition() <= 10.0 && zeroSet == true)
                 {
                     clawState = "open";
+                }
+                if(autoGrabButtonPressed)
+                {
+                    clawState = "grabbing";
                 }
                 System.out.println("Claw is Opening");
             break;
             case "closed":
                 if(!autoGrabButtonPressed)
                 {
-                    clawMotor.set(0.0);//This needs to be higher if placing preloaded piece on higher rungs
+                    clawMotor.set(0.025);//This needs to be higher if placing preloaded piece on higher rungs
                 }
                 if(autoGrabButtonPressed && clawState == "closed")
                 {
