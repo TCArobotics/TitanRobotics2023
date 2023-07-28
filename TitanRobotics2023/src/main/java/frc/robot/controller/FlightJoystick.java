@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class FlightJoystick {
     Joystick flightJoystick = new Joystick(1);
-    private double debouncePeriod = 0.1; //The time before a button is allowed to be pressed again in seconds
+    private double debouncePeriod = 0.15; //The time before a button is allowed to be pressed again in seconds
     private HashMap<ButtonMap, Double> buttons;
 
     public FlightJoystick()

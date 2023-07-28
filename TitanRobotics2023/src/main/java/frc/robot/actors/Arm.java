@@ -21,6 +21,7 @@ public class Arm    //contains all arm related motors (pivot, and retract(/exten
     private double armPosition;
     private String state;
     private boolean button2alreadypressed = false;
+    public double armStopDescentPowerSubtractor = 0.0;
     
     public Arm()
     {
@@ -33,7 +34,7 @@ public class Arm    //contains all arm related motors (pivot, and retract(/exten
 
     public void runPivotMotor(double pivotSpeed) //pivots the arm up or down
     {
-        motorPivot.set(pivotSpeed - 0.07);
+        motorPivot.set(pivotSpeed - 0.07 - armStopDescentPowerSubtractor);
     }
 
     public void runArmMotor(double retractSpeed) //retracts or extends the arm
@@ -83,14 +84,16 @@ public class Arm    //contains all arm related motors (pivot, and retract(/exten
     public void armStopDescent(boolean armStopDescentButtonPressed)
     {
         pivotEncoder.setDistancePerPulse(1/cpr);
-        System.out.println(pivotEncoder.getDistance());
+        //System.out.println(pivotEncoder.getDistance());
         if(!button2alreadypressed && armStopDescentButtonPressed)
         {
-            motorPivot.set(-0.1);
+           // motorPivot.set(-0.1);
+           armStopDescentPowerSubtractor = 0.1;
             button2alreadypressed = true;
         }
         if(button2alreadypressed && armStopDescentButtonPressed)
         {
+            armStopDescentPowerSubtractor = 0.0;
             motorPivot.set(0.0);
         }
     }

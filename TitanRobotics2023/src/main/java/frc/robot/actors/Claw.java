@@ -13,7 +13,7 @@ public class Claw {
     private CANSparkMax clawMotor;
     public RelativeEncoder clawEncoder;
     private String clawState;
-    private Boolean zeroSet;
+    private Boolean zeroSet = false;
     private String clawStateAuto;
     private AprilTag aprilTag = new AprilTag();
     public double startTimeClaw;
@@ -45,16 +45,18 @@ public class Claw {
     
     public void clawEncoderAutoGrab(boolean autoGrabButtonPressed, boolean autoReleaseButtonPressed) //Automatically grabs and holds onto an object
     {
-        System.out.println(clawState);
+        //System.out.println ("time" + timeClaw());
+        //System.out.println (zeroSet);
+        
+        //System.out.println(clawState);
         switch(clawState)
         {
             case "open":
-                clawMotor.set(0.025);
                 if(autoGrabButtonPressed)
                 {
                     clawState = "grabbing";
                 }
-                System.out.println("Claw is Open");
+                //System.out.println("Claw is Open");
             break;
             case "grabbing":
                 clawMotor.set(0.15);
@@ -64,38 +66,39 @@ public class Claw {
                 }
                 if(clawEncoder.getPosition() >= 20.0 && zeroSet == true)//9 is a placeholder
                 {
+                    clawMotor.set(0.025);
                     clawState = "closed";
                 }
-                System.out.println("Claw is Grabbing");
+                //System.out.println("Claw is Grabbing");
             break;
             case "releasing":
-                clawMotor.set(-0.2);
-                System.out.println(clawEncoder.getPosition());
-                if(zeroSet == false && timeClaw() <= 1.5)
+                if(zeroSet)
+                {
+                    clawMotor.set(-0.3);
+                }
+                //System.out.println(clawEncoder.getPosition());
+                if(timeClaw() <= 1.5)
                 {
                     clawMotor.set(-0.1);
                     clawEncoder.setPosition(0.0);
                 }
-                else
+                if(timeClaw() > 1.5)
                 {
                     zeroSet = true;
                 }
-                if(clawEncoder.getPosition() <= 10.0 && zeroSet == true)
+                if(clawEncoder.getPosition() <= 10.0 && zeroSet)
                 {
+                    clawMotor.set(-0.025);
                     clawState = "open";
                 }
                 if(autoGrabButtonPressed)
                 {
                     clawState = "grabbing";
                 }
-                System.out.println("Claw is Opening");
+                //System.out.println("Claw is Opening");
             break;
             case "closed":
-                if(!autoGrabButtonPressed)
-                {
-                    clawMotor.set(0.025);//This needs to be higher if placing preloaded piece on higher rungs
-                }
-                if(autoGrabButtonPressed && clawState == "closed")
+                if(autoGrabButtonPressed)
                 {
                     clawState = "releasing";
                 }
