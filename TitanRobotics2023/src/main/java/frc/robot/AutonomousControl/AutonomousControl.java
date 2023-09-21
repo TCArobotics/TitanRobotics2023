@@ -71,7 +71,6 @@ public class AutonomousControl
 
     public void ForwardAndStop()
     {
-        //System.out.println(time());
         if (time() > (delay + delayToDropPiece) && time() <= (3.0 + delay + delayToDropPiece))
         {
             driveControl.plugInToTankDrive(0.25, 0.0);
