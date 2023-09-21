@@ -74,19 +74,19 @@ public class Claw {
             case "releasing":
                 if(zeroSet)
                 {
-                    clawMotor.set(-0.3);
+                    clawMotor.set(-0.45);
                 }
                 //System.out.println(clawEncoder.getPosition());
-                if(timeClaw() <= 1.5)
+                if(timeClaw() <= 2.5)
                 {
-                    clawMotor.set(-0.1);
+                    clawMotor.set(-0.15);
                     clawEncoder.setPosition(0.0);
                 }
-                if(timeClaw() > 1.5)
+                if(timeClaw() > 2.5)
                 {
                     zeroSet = true;
                 }
-                if(clawEncoder.getPosition() <= 10.0 && zeroSet)
+                if(clawEncoder.getPosition() <= 7.5 && zeroSet)
                 {
                     clawMotor.set(-0.025);
                     clawState = "open";
