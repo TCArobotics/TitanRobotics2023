@@ -89,7 +89,6 @@ public class AutonomousControl
     public void ForwardAndStopOverRamp()
     {
         double forwardTime = 2.35 + delay + delayToDropPiece;
-        //System.out.println(time());
         if (time() > (delay + delayToDropPiece) && time() <= forwardTime)
         {
             driveControl.plugInToTankDrive(0.45, 0.0);
