@@ -83,7 +83,6 @@ public class AutonomousControl
             driveControl.plugInToTankDrive(-0.02, 0.0);
             stopping = true;
             drivingForward = false;
-            //System.out.println("Stopping");
         }
     }
     public void ForwardAndStopOverRamp()
